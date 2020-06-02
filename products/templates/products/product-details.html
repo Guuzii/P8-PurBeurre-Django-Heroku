@@ -1,0 +1,39 @@
+{% extends './results.html' %}
+
+{% block result %}
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-md-4 d-flex flex-column align-items-center">
+                    <div>
+                        <img src="../../static/assets/img/nutriscore-{{ searched_product.nutri_score }}.svg" alt="Nutriscore">
+                    </div>
+                    <div style="margin-top: 15px;">
+                        <a href="{{searched_product.url}}" target="_blank">Voir la fiche d'OpenFoodFacts <i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center product-detail-img">
+                    <img src="{{ searched_product.image_url }}" alt="image {{ searched_product.name }}">
+                </div>
+                <div class="col-md-4 d-flex justify-content-center">
+                    <div style="width: 85%;">
+                        <h4>Repères nutritionnels pour 100 g :</h4>
+                        <br>
+                        {% for nutriment in product_nutriments %}
+                            <div class="nutriment-entry">
+                                <div class="entry-text">
+                                    {{ nutriment.name }} : 
+                                </div>
+                                <div class="entry-quantity">
+                                    {{ nutriment.quantity|floatformat:2 }}{{ nutriment.unit }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> 
+
+{% endblock %}

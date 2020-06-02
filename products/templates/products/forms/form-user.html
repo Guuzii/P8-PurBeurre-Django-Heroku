@@ -1,0 +1,33 @@
+{% block user_form %}
+
+{% if errors %}
+    <div style="color: red;">
+        {% for key, error in errors %}
+            {% autoescape off %}
+                {{ error }}
+            {% endautoescape %}
+        {% endfor %}
+    </div>
+{% endif %}
+
+<br>
+
+<form action="{% url 'user-create' %}" method="POST">
+    {% csrf_token %}
+
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+              <div class="form-text text-muted">
+                <small>{{ field.help_text }}</small>
+              </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

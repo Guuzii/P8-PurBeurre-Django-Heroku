@@ -1,0 +1,21 @@
+{% block search_form %}
+
+<form action="{% url 'product-search-results' %}" method="POST">
+    {% csrf_token %}
+    
+    {{ search_form.product_name }}
+    
+    <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"></i></button>
+
+    {% if errors %}
+        <div class="text-white">
+            {% for key, error in errors %}
+                {% autoescape off %}
+                    <small>{{ error }}</small>
+                {% endautoescape %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</form>
+
+{% endblock %}

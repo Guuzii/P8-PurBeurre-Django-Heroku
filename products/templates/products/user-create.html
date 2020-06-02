@@ -1,0 +1,22 @@
+{% extends './user.html' %}
+
+{% block user %}
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Créer un utilisateur</h2>
+                    <hr class="divider my-4" />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    {% include './forms/form-user.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

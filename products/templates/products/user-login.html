@@ -1,0 +1,28 @@
+{% extends './user.html' %}
+
+{% block user %}
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Se connecter</h2>
+                    <hr class="divider my-4" />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    {% include './forms/form-login.html' %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <p>Pas de compte ? Pas de problèmes : <a href="{% url 'user-create' %}">Créer un compte</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends './results.html' %}
+
+{% block result %}
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Voici les aliments que vous avez enregistré :</h2>
+                    <hr class="divider my-4" />
+                </div>
+            </div>
+            
+            {% if products|length > 0 %}
+                <div class="row">
+                    <div class="col-md-12 text-center d-flex flex-wrap">                    
+                        {% for product in products %}
+                            <div id="product-card-{{ product.id }}" class="col-md-4 product-card">                                
+                                <div class="card-content">
+                                    <div class="hover-div" data="{{ product.id }}"></div>
+                                    <div class="nutriscore">
+                                        <img src="../../static/assets/img/nutriscore-{{ product.nutri_score }}.svg" alt="">
+                                    </div>
+                                    <div class="product-img">                                        
+                                        <img src="{{ product.image_url }}" alt="image {{ product.name }}">
+                                    </div>
+                                    <div class="product-info">                                    
+                                        <div><hr class="divider my-4" /></div>                                    
+                                        <p class="product-name">{{ product.name }}</p>
+                                    </div>
+                                    <div class="save-div">
+                                        <p class="text-white" style="background-color: red;" data="{{ product.id }}" page-origin="{{ request.path }}">Retirer des favoris</p>
+                                    </div>
+                                </div>                                                            
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p>Vous n'avez aucun produits enregistré dans vos favoris</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section> 
+
+{% endblock %}

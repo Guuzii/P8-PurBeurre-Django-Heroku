@@ -1,0 +1,23 @@
+{% block login_form %}
+
+{% if form.errors %}
+    <div style="color: red;">
+        L'identifiant et/ou le mot de passe ne correspondent pas.
+    </div>
+{% endif %}
+
+<br>
+
+<form action="{% url 'login' %}" method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+        </div>
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-primary">Connexion</button>
+</form>
+
+{% endblock %}

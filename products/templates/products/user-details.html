@@ -1,0 +1,23 @@
+{% extends './user.html' %}
+
+{% block user %}
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h2>Voici vos informations utilisateur</h2>
+                    <hr class="divider my-4" />
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 mb-4">
+                    <p>Votre identifiant : {{ user.username }}</p>
+                    <p>Votre email : {{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
