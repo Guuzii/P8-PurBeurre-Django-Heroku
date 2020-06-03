@@ -20,13 +20,12 @@ from django.urls import include, path
 from products import views
 
 urlpatterns = [
-    path('', views.HomeView.as_view()),
-    path('products/', include('products.urls')),
-    path('vigile/', admin.site.urls),
+    path("", views.HomeView.as_view()),
+    path("products/", include("products.urls")),
+    path("vigile/", admin.site.urls),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+
+    urlpatterns = [path("__debug__/", include(debug_toolbar.urls)),] + urlpatterns

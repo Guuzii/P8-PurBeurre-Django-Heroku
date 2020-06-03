@@ -8,60 +8,127 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Nutriment',
+            name="Nutriment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('unit', models.CharField(max_length=2)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("unit", models.CharField(max_length=2)),
             ],
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('url', models.URLField(max_length=255, unique=True)),
-                ('image_url', models.URLField(max_length=255, unique=True)),
-                ('nutri_score', models.CharField(max_length=1)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                ("url", models.URLField(max_length=255, unique=True)),
+                ("image_url", models.URLField(max_length=255, unique=True)),
+                ("nutri_score", models.CharField(max_length=1)),
             ],
         ),
         migrations.CreateModel(
-            name='ProductNutriments',
+            name="ProductNutriments",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.FloatField()),
-                ('nutriment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Nutriment')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.FloatField()),
+                (
+                    "nutriment",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="products.Nutriment",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="products.Product",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ProductCategories',
+            name="ProductCategories",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Category')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="products.Category",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="products.Product",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='product',
-            name='categories',
-            field=models.ManyToManyField(through='products.ProductCategories', to='products.Category'),
+            model_name="product",
+            name="categories",
+            field=models.ManyToManyField(
+                through="products.ProductCategories", to="products.Category"
+            ),
         ),
         migrations.AddField(
-            model_name='product',
-            name='nutriments',
-            field=models.ManyToManyField(through='products.ProductNutriments', to='products.Nutriment'),
+            model_name="product",
+            name="nutriments",
+            field=models.ManyToManyField(
+                through="products.ProductNutriments", to="products.Nutriment"
+            ),
         ),
     ]

@@ -9,73 +9,101 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('products', '0002_auto_20200427_1718'),
+        ("products", "0002_auto_20200427_1718"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='category',
-            options={'verbose_name': 'Catégorie', 'verbose_name_plural': 'Catégories'},
+            name="category",
+            options={"verbose_name": "Catégorie", "verbose_name_plural": "Catégories"},
         ),
         migrations.AlterModelOptions(
-            name='nutriment',
-            options={'verbose_name': 'Nutriment', 'verbose_name_plural': 'Nutriments'},
+            name="nutriment",
+            options={"verbose_name": "Nutriment", "verbose_name_plural": "Nutriments"},
         ),
         migrations.AlterModelOptions(
-            name='product',
-            options={'verbose_name': 'Produit', 'verbose_name_plural': 'Produits'},
+            name="product",
+            options={"verbose_name": "Produit", "verbose_name_plural": "Produits"},
         ),
         migrations.AlterField(
-            model_name='category',
-            name='name',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Nom'),
+            model_name="category",
+            name="name",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Nom"),
         ),
         migrations.AlterField(
-            model_name='nutriment',
-            name='name',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Nom'),
+            model_name="nutriment",
+            name="name",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Nom"),
         ),
         migrations.AlterField(
-            model_name='nutriment',
-            name='unit',
-            field=models.CharField(max_length=2, verbose_name='Unité de mesure'),
+            model_name="nutriment",
+            name="unit",
+            field=models.CharField(max_length=2, verbose_name="Unité de mesure"),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='image_url',
-            field=models.URLField(max_length=255, null=True, unique=True, verbose_name="Url de l'image"),
+            model_name="product",
+            name="image_url",
+            field=models.URLField(
+                max_length=255, null=True, unique=True, verbose_name="Url de l'image"
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='name',
-            field=models.CharField(max_length=255, unique=True, verbose_name='Nom'),
+            model_name="product",
+            name="name",
+            field=models.CharField(max_length=255, unique=True, verbose_name="Nom"),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='nutri_score',
-            field=models.CharField(max_length=1, verbose_name='Score nutritionnel'),
+            model_name="product",
+            name="nutri_score",
+            field=models.CharField(max_length=1, verbose_name="Score nutritionnel"),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='url',
-            field=models.URLField(max_length=255, unique=True, verbose_name='Url vers la page OpenFoodFact'),
+            model_name="product",
+            name="url",
+            field=models.URLField(
+                max_length=255,
+                unique=True,
+                verbose_name="Url vers la page OpenFoodFact",
+            ),
         ),
         migrations.AlterField(
-            model_name='productnutriments',
-            name='quantity',
-            field=models.FloatField(null=True, verbose_name='Quantité'),
+            model_name="productnutriments",
+            name="quantity",
+            field=models.FloatField(null=True, verbose_name="Quantité"),
         ),
         migrations.CreateModel(
-            name='ProductUsers',
+            name="ProductUsers",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.Product')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="products.Product",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='product',
-            name='users',
-            field=models.ManyToManyField(through='products.ProductUsers', to=settings.AUTH_USER_MODEL),
+            model_name="product",
+            name="users",
+            field=models.ManyToManyField(
+                through="products.ProductUsers", to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]
