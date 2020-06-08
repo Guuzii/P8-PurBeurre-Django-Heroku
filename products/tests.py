@@ -338,7 +338,7 @@ class ModelsTest(TestCase):
 
 # Custom manage.py command database_fill
 class CommandTest(TestCase):
-    def test_command_style(self):
+    def test_custom_command_database_fill(self):
         out = StringIO()
         call_command("database_fill", stdout=out)
         self.assertEquals(out.getvalue().strip(), "PRODUCTS DATAS IMPORTATION DONE")

@@ -11,6 +11,10 @@
     justify-content: space-between;
 }
 
+#site-logo {
+    max-width: 35px;
+}
+
 #mainNav .btn {
     color: #fff;
     background-color: #6c757d;

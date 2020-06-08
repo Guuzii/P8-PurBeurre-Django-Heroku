@@ -211,3 +211,14 @@ class UserSaveProduct(View):
             }
 
         return JsonResponse(data)
+
+class LegalNotice(View):
+    template_name = "products/legal-notice.html"
+    context = {
+        "search_form": SearchForm(),
+        "title": "Mentions légales"
+    }
+
+    def get(self, request):
+        """Return the homepage template"""
+        return render(request, self.template_name, self.context)
