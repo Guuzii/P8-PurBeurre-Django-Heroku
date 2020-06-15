@@ -17,6 +17,17 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: keep the secret key used in production secret!
+if os.environ.get("ENV") == "PRODUCTION":
+    DEBUG = False
+
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+else:
+    DEBUG = True
+    SECRET_KEY = "%!p7ld+l#wxdmmo4u(7@swrvap*$05wom^6!q-flp$w+2#%$t-"
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -85,6 +96,10 @@ DATABASES = {
     }
 }
 
+if os.environ.get("ENV") == "PRODUCTION":
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    DATABASES["default"].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -151,17 +166,3 @@ NUTRIMENTS = {
     "sugars": {"name": "sucres", "unit": "g"},
     "salt": {"name": "sel", "unit": "g"},
 }
-
-# PRODUCTION SETTINGS
-# SECURITY WARNING: don't run with debug turned on in production!
-# SECURITY WARNING: keep the secret key used in production secret!
-if os.environ.get("ENV") == "PRODUCTION":
-    DEBUG = False
-
-    SECRET_KEY = os.environ.get("SECRET_KEY")
-
-    db_from_env = dj_database_url.config(conn_max_age=500)
-    DATABASES["default"].update(db_from_env)
-else:
-    DEBUG = True
-    SECRET_KEY = "%!p7ld+l#wxdmmo4u(7@swrvap*$05wom^6!q-flp$w+2#%$t-"

@@ -212,6 +212,7 @@ class UserSaveProduct(View):
 
         return JsonResponse(data)
 
+
 class LegalNotice(View):
     template_name = "products/legal-notice.html"
     context = {
