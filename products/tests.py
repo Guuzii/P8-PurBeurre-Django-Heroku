@@ -251,7 +251,7 @@ class UserLoginPage(TestCase):
             reverse("login"), {"username": "testuser", "password": "test123+"}
         )
         self.assertEqual(self.test_user.id, int(self.client.session["_auth_user_id"]))
-        self.assertRedirects(response=response, expected_url="/products/")
+        self.assertRedirects(response=response, expected_url="/")
         self.assertTemplateUsed(template_name="products/homepage.html")
 
     # test that User-login page return errors context, on post request with bad credentials
@@ -336,9 +336,9 @@ class ModelsTest(TestCase):
         self.assertEqual(str(self.test_nutriment), self.test_nutriment.name)
 
 
-# Custom manage.py command database_fill
-class CommandTest(TestCase):
-    def test_custom_command_database_fill(self):
-        out = StringIO()
-        call_command("database_fill", stdout=out)
-        self.assertEquals(out.getvalue().strip(), "PRODUCTS DATAS IMPORTATION DONE")
+# # Custom manage.py command database_fill
+# class CommandTest(TestCase):
+#     def test_custom_command_database_fill(self):
+#         out = StringIO()
+#         call_command("database_fill", stdout=out)
+#         self.assertEquals(out.getvalue().strip(), "PRODUCTS DATAS IMPORTATION DONE")
