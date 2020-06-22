@@ -45,15 +45,8 @@ class Command(BaseCommand):
             Parameters:
                 - product_category (str): the name of the category of products to get
         """
-        request = requests.get(
-            "https://fr-en.openfoodfacts.org/cgi/search.pl?search_terms="
-            + product_category
-            + "&page_size="
-            + str(settings.NB_PRODUCTS_TO_GET)
-            + "&action=process&json=1",
-            headers={"items": settings.USER_AGENT_OFF},
-        )
-        response = json.loads(request.text)
+
+        response = self.openfoodfacts_api_get_product(product_category, settings.NB_PRODUCTS_TO_GET, settings.USER_AGENT_OFF)
 
         for product in response["products"]:
 
@@ -134,3 +127,16 @@ class Command(BaseCommand):
                         new_product.nutriments.add(new_nutriment)
                 else:
                     new_product.nutriments.add(new_nutriment)
+
+
+    def openfoodfacts_api_get_product(self, category: str, number_of_products: int, user_agent):
+        request = requests.get(
+            "https://fr-en.openfoodfacts.org/cgi/search.pl?search_terms="
+            + category
+            + "&page_size="
+            + str(number_of_products)
+            + "&action=process&json=1",
+            headers={"items": user_agent},
+        )
+
+        return json.loads(request.text)

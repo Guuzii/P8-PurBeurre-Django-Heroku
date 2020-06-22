@@ -1,4 +1,5 @@
 from django.test import TestCase
+from unittest.mock import Mock, patch
 from django.urls import reverse
 
 from django.contrib.auth import authenticate, login, logout
@@ -14,6 +15,7 @@ from products.models import (
     ProductUsers,
 )
 from products.forms import UserCreateForm, LoginForm
+from products.management.commands.database_fill import Command
 
 from io import StringIO
 
@@ -336,9 +338,21 @@ class ModelsTest(TestCase):
         self.assertEqual(str(self.test_nutriment), self.test_nutriment.name)
 
 
-# # Custom manage.py command database_fill
-# class CommandTest(TestCase):
-#     def test_custom_command_database_fill(self):
-#         out = StringIO()
-#         call_command("database_fill", stdout=out)
-#         self.assertEquals(out.getvalue().strip(), "PRODUCTS DATAS IMPORTATION DONE")
+# Custom manage.py command database_fill
+class CommandTest(TestCase):
+    @patch('products.management.commands.database_fill.Command.openfoodfacts_api_get_product')
+    def test_custom_command_database_fill(self, mock_get):
+        product = [{
+            'url': 'https://url.test.com',
+            'product_name': "produit test mock",
+            'nutrition_grades_tags': ["c",],
+            'categories_tags': ['test',],
+        }]
+
+        mock_get.return_value = Mock(ok=True)
+        mock_get.return_value.json.return_value = product
+        
+        response = Command.openfoodfacts_api_get_product(self, category="test", number_of_products=1, user_agent="test-agent")
+        
+        self.assertIsNotNone(response)
+        self.assertTrue(mock_get.called)
