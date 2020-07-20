@@ -12,10 +12,7 @@ psycopg2 = "*"
 django-debug-toolbar = "*"
 requests = "*"
 gunicorn = "*"
-whitenoise = "*"
-dj-database-url = "*"
 coverage = "*"
-black = "*"
 
 [requires]
 python_version = "3.7"
