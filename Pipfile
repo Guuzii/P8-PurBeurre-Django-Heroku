@@ -8,11 +8,12 @@ pylint = "*"
 
 [packages]
 django = "*"
-psycopg2 = "*"
 django-debug-toolbar = "*"
 requests = "*"
 gunicorn = "*"
 coverage = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.7"

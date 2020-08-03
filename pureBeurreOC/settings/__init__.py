@@ -51,7 +51,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 
@@ -81,9 +80,9 @@ WSGI_APPLICATION = "pureBeurreOC.wsgi.application"
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "PurBeurre",
-        "USER": "postgres",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "purbeurre_prod",
+        "USER": "erwan",
         "PASSWORD": "",
         "HOST": "",
         "PORT": "5432",
@@ -130,7 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "products/static")
+    os.path.join(BASE_DIR, "products/static"),
 )
 
 
@@ -155,3 +154,4 @@ NUTRIMENTS = {
     "sugars": {"name": "sucres", "unit": "g"},
     "salt": {"name": "sel", "unit": "g"},
 }
+
