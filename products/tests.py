@@ -15,7 +15,7 @@ from products.models import (
     ProductUsers,
 )
 from products.forms import UserCreateForm, LoginForm
-from products.management.commands.database_fill import Command
+from products.management.commands.database_update import Command
 
 from io import StringIO
 
@@ -338,10 +338,10 @@ class ModelsTest(TestCase):
         self.assertEqual(str(self.test_nutriment), self.test_nutriment.name)
 
 
-# Custom manage.py command database_fill
+# Custom manage.py command database_update
 class CommandTest(TestCase):
-    @patch('products.management.commands.database_fill.Command.openfoodfacts_api_get_product')
-    def test_custom_command_database_fill(self, mock_get):
+    @patch('products.management.commands.database_update.Command.openfoodfacts_api_get_product')
+    def test_custom_command_database_update(self, mock_get):
         product = [{
             'url': 'https://url.test.com',
             'product_name': "produit test mock",
