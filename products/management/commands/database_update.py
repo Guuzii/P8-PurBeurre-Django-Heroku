@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
+from datetime import datetime
+
 from products.models import (
     Nutriment,
     Category,
@@ -33,7 +35,7 @@ class Command(BaseCommand):
         for category in Category.objects.all():
             self.get_products_for_category(category.name)
 
-        self.stdout.write("PRODUCTS DATAS UPDATE DONE")
+        self.stdout.write("PRODUCTS DATAS UPDATE DONE - " + str(datetime.now()))
 
 
     def get_products_for_category(self, product_category: str):

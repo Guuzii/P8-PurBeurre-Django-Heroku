@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "debug_toolbar",
+    "django_crontab",
 ]
 
 MIDDLEWARE = [
@@ -132,6 +133,11 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "products/static"),
 )
 
+# Django crontab
+CRONJOBS = [
+    # Call manage.py custom command every Monday at 2:00 AM and append ouput to specified file
+    ('0 2 * * 1', 'django.core.management.call_command', ['database_update'], {}, '>> ' + os.path.join(os.path.dirname(BASE_DIR),'django_cron.log')),
+]
 
 # Open Food Facts API requests variables
 
