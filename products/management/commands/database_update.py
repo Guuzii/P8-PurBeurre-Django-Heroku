@@ -18,24 +18,23 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        Product.objects.all().delete()
-        Nutriment.objects.all().delete()
-        Category.objects.all().delete()
-
         for nutriment in settings.NUTRIMENTS:
-            new_nutriment = Nutriment(
-                name=nutriment, unit=settings.NUTRIMENTS[nutriment]["unit"]
-            )
-            new_nutriment.save()
+            if not Nutriment.objects.filter(name__iexact=nutriment):
+                new_nutriment = Nutriment(
+                    name=nutriment, unit=settings.NUTRIMENTS[nutriment]["unit"]
+                )
+                new_nutriment.save()            
 
         for category in settings.PRODUCTS_CATEGORIES:
-            new_category = Category(name=category)
-            new_category.save()
+            if not Category.objects.filter(name__iexact=category):
+                new_category = Category(name=category)
+                new_category.save()
 
-        for category in settings.PRODUCTS_CATEGORIES:
-            self.get_products_for_category(category)
+        for category in Category.objects.all():
+            self.get_products_for_category(category.name)
 
-        self.stdout.write("PRODUCTS DATAS IMPORTATION DONE")
+        self.stdout.write("PRODUCTS DATAS UPDATE DONE")
+
 
     def get_products_for_category(self, product_category: str):
         """
@@ -51,10 +50,15 @@ class Command(BaseCommand):
         for product in response["products"]:
 
             new_product = Product()
+            
+            if Product.objects.filter(url__iexact=product["url"]):
+                continue
             new_product.url = product["url"]
 
             # set the image_url of the product
-            if "image_url" in product:
+            if ("image_url" in product):
+                if Product.objects.filter(image_url__iexact=product["image_url"]):
+                    continue                
                 new_product.image_url = product["image_url"]
 
             # set the name of the product
@@ -103,30 +107,28 @@ class Command(BaseCommand):
                     new_category = category.replace("en:", "")
                     new_category = new_category.replace("fr:", "")
 
-                    if new_category in settings.PRODUCTS_CATEGORIES:
-                        new_product_category = Category.objects.get(name=new_category)
-                        new_product.categories.add(new_product_category)
+                    if Category.objects.filter(name=new_category):
+                        new_product.categories.add(Category.objects.get(name=new_category))
                     else:
                         continue
             else:
                 continue
 
             # create the relations product-nutriment for every nutriments specified in settings
-            for nutriment in settings.NUTRIMENTS:
-                new_nutriment = Nutriment.objects.get(name=nutriment)
+            for nutriment in Nutriment.objects.all():
 
-                if nutriment + "_100g" in product["nutriments"]:
-                    if product["nutriments"][nutriment + "_100g"] is not "":
+                if nutriment.name + "_100g" in product["nutriments"]:
+                    if product["nutriments"][nutriment.name + "_100g"] is not "":
                         new_product.nutriments.add(
-                            new_nutriment,
+                            nutriment,
                             through_defaults={
-                                "quantity": product["nutriments"][nutriment + "_100g"]
+                                "quantity": product["nutriments"][nutriment.name + "_100g"]
                             },
                         )
                     else:
-                        new_product.nutriments.add(new_nutriment)
+                        new_product.nutriments.add(nutriment)
                 else:
-                    new_product.nutriments.add(new_nutriment)
+                    new_product.nutriments.add(nutriment)
 
 
     def openfoodfacts_api_get_product(self, category: str, number_of_products: int, user_agent):

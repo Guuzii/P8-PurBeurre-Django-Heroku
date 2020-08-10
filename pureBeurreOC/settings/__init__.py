@@ -82,9 +82,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "PurBeurre",
-        "USER": "postgres",
-        "PASSWORD": "",
-        "HOST": "",
+        "USER": "jasparo",
+        "PASSWORD": "J4sp4r075",
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }
@@ -146,6 +146,7 @@ PRODUCTS_CATEGORIES = {
     "fishes": "Poissons",
     "desserts": "Desserts",
     "beverages": "Boissons",
+    "test": "test",
 }
 
 NUTRIMENTS = {
