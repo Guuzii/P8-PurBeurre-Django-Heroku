@@ -34,8 +34,8 @@ class Command(BaseCommand):
 
         for category in Category.objects.all():
             self.get_products_for_category(category.name)
-            
-        print("PRODUCTS DATAS UPDATE DONE - " + str(datetime.now()))
+
+        print("PRODUCTS DATAS UPDATE DONE -", datetime.now())
 
 
     def get_products_for_category(self, product_category: str):
