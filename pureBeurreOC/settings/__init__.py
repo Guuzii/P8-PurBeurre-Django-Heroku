@@ -146,7 +146,6 @@ PRODUCTS_CATEGORIES = {
     "fishes": "Poissons",
     "desserts": "Desserts",
     "beverages": "Boissons",
-    "test": "test",
 }
 
 NUTRIMENTS = {
