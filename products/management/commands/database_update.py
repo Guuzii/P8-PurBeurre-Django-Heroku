@@ -22,25 +22,39 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        print("**************************************************")
+        print("STARTING DATABASE_UPDATE - {}".format(datetime.now()))
+        print("**************************************************")
         for nutriment in settings.NUTRIMENTS:
             if not Nutriment.objects.filter(name__iexact=nutriment):
+                print(nutriment)
                 new_nutriment = Nutriment(
                     name=nutriment, unit=settings.NUTRIMENTS[nutriment]["unit"]
                 )
-                new_nutriment.save()            
+                new_nutriment.save()
+                print("Adding new nutriment to database :", nutriment)
+            else:
+                print("Existing nutriment :", nutriment)
 
+        print("--------------------------------------------------")
         for category in settings.PRODUCTS_CATEGORIES:
             if not Category.objects.filter(name__iexact=category):
                 new_category = Category(name=category)
                 new_category.save()
+                print("Adding new category to database :", category)
+            else:
+                print("Existing category :", category)
 
+        print("--------------------------------------------------")
         for category in Category.objects.all():
             self.get_products_for_category(category.name)
 
-        print("PRODUCTS DATAS UPDATE DONE - {}".format(datetime.now()))
+        print("**************************************************")
+        print("END OF DATABASE_UPDATE - {}".format(datetime.now()))
+        print("**************************************************")
 
-        with open(os.path.join(os.path.dirname(settings.BASE_DIR), 'django_cron.log'), 'a') as log_file:
-            print("PRODUCTS DATAS UPDATE DONE - {}".format(datetime.now()), file=log_file)
+        # with open(os.path.join(os.path.dirname(settings.BASE_DIR), 'django_cron.log'), 'a') as log_file:
+        #     print("PRODUCTS DATAS UPDATE DONE - {}".format(datetime.now()), file=log_file)
 
 
     def get_products_for_category(self, product_category: str):
@@ -106,6 +120,8 @@ class Command(BaseCommand):
                     ].lower()
 
             new_product.save()
+
+            print("Adding new product to database :", new_product.name)
 
             # create the relations product-category
             if len(product["categories_tags"]) > 0:
