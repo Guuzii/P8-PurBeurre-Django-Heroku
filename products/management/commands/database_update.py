@@ -1,3 +1,5 @@
+import os
+
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
@@ -35,7 +37,10 @@ class Command(BaseCommand):
         for category in Category.objects.all():
             self.get_products_for_category(category.name)
 
-        print("PRODUCTS DATAS UPDATE DONE -", datetime.now())
+        print("PRODUCTS DATAS UPDATE DONE - {}".format(datetime.now()))
+
+        with open(os.path.join(os.path.dirname(settings.BASE_DIR), 'django_cron.log'), 'a') as log_file:
+            print("PRODUCTS DATAS UPDATE DONE - {}".format(datetime.now()), file=log_file)
 
 
     def get_products_for_category(self, product_category: str):

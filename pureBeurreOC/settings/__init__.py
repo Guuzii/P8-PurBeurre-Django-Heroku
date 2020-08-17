@@ -135,8 +135,10 @@ STATICFILES_DIRS = (
 
 # Django crontab
 CRONJOBS = [
+    # Test cron job
+    # ('*/1 * * * *', 'django.core.management.call_command', ['database_update'], {}, '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'django_cron_test.log')),    
     # Call manage.py custom command every Monday at 2:00 AM and append ouput to specified file
-    ('0 2 * * 1', 'django.core.management.call_command', ['database_update'], {}, '>> ' + os.path.join(os.path.dirname(BASE_DIR),'django_cron.log')),
+    ('0 2 * * 1', 'django.core.management.call_command', ['database_update'], {}, '>> ' + os.path.join(os.path.dirname(BASE_DIR), 'django_cron.log')),
 ]
 
 # Open Food Facts API requests variables

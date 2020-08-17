@@ -15,6 +15,7 @@ coverage = "*"
 psycopg2-binary = "*"
 dj-database-url = "*"
 django-crontab = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.7"
