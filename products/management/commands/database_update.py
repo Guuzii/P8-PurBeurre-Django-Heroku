@@ -27,7 +27,6 @@ class Command(BaseCommand):
         print("**************************************************")
         for nutriment in settings.NUTRIMENTS:
             if not Nutriment.objects.filter(name__iexact=nutriment):
-                print(nutriment)
                 new_nutriment = Nutriment(
                     name=nutriment, unit=settings.NUTRIMENTS[nutriment]["unit"]
                 )
