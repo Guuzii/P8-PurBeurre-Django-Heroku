@@ -67,6 +67,9 @@ class Command(BaseCommand):
 
         response = self.openfoodfacts_api_get_product(product_category, settings.NB_PRODUCTS_TO_GET, settings.USER_AGENT_OFF)
 
+        if (response is None):
+            break
+
         for product in response["products"]:
 
             new_product = Product()
@@ -163,4 +166,7 @@ class Command(BaseCommand):
             headers={"items": user_agent},
         )
 
-        return json.loads(request.text)
+        if (request.status_code == 200):
+            return json.loads(request.text)
+        else:
+            return None
