@@ -67,93 +67,91 @@ class Command(BaseCommand):
 
         response = self.openfoodfacts_api_get_product(product_category, settings.NB_PRODUCTS_TO_GET, settings.USER_AGENT_OFF)
 
-        if (response is None):
-            break
+        if (response is not None):
+            for product in response["products"]:
 
-        for product in response["products"]:
+                new_product = Product()
+                
+                if Product.objects.filter(url__iexact=product["url"]):
+                    continue
+                new_product.url = product["url"]
 
-            new_product = Product()
-            
-            if Product.objects.filter(url__iexact=product["url"]):
-                continue
-            new_product.url = product["url"]
+                # set the image_url of the product
+                if ("image_url" in product):
+                    if Product.objects.filter(image_url__iexact=product["image_url"]):
+                        continue                
+                    new_product.image_url = product["image_url"]
 
-            # set the image_url of the product
-            if ("image_url" in product):
-                if Product.objects.filter(image_url__iexact=product["image_url"]):
-                    continue                
-                new_product.image_url = product["image_url"]
-
-            # set the name of the product
-            if "product_name" in product:
-                if (
-                    product["product_name"] is not None
-                    and product["product_name"] is not ""
-                ):
-                    new_product.name = product["product_name"]
-                else:
+                # set the name of the product
+                if "product_name" in product:
                     if (
-                        product["product_name_fr"] is not None
-                        and product["product_name_fr"] is not ""
+                        product["product_name"] is not None
+                        and product["product_name"] is not ""
                     ):
-                        new_product.name = product["product_name_fr"]
+                        new_product.name = product["product_name"]
                     else:
-                        continue
-            else:
-                continue
-
-            # check if product exist in database
-            if Product.objects.filter(name__iexact=new_product.name):
-                continue
-
-            # set the nutrition score of the product
-            if "nutrition_grades_tags" in product:
-                if product["nutrition_grades_tags"][0].lower() not in [
-                    "a",
-                    "b",
-                    "c",
-                    "d",
-                    "e",
-                ]:
-                    new_product.nutri_score = "e"
+                        if (
+                            product["product_name_fr"] is not None
+                            and product["product_name_fr"] is not ""
+                        ):
+                            new_product.name = product["product_name_fr"]
+                        else:
+                            continue
                 else:
-                    new_product.nutri_score = product["nutrition_grades_tags"][
-                        0
-                    ].lower()
+                    continue
 
-            new_product.save()
+                # check if product exist in database
+                if Product.objects.filter(name__iexact=new_product.name):
+                    continue
 
-            print("Adding new product to database :", new_product.name)
-
-            # create the relations product-category
-            if len(product["categories_tags"]) > 0:
-                for category in product["categories_tags"]:
-                    # parsing of the category tag
-                    new_category = category.replace("en:", "")
-                    new_category = new_category.replace("fr:", "")
-
-                    if Category.objects.filter(name=new_category):
-                        new_product.categories.add(Category.objects.get(name=new_category))
+                # set the nutrition score of the product
+                if "nutrition_grades_tags" in product:
+                    if product["nutrition_grades_tags"][0].lower() not in [
+                        "a",
+                        "b",
+                        "c",
+                        "d",
+                        "e",
+                    ]:
+                        new_product.nutri_score = "e"
                     else:
-                        continue
-            else:
-                continue
+                        new_product.nutri_score = product["nutrition_grades_tags"][
+                            0
+                        ].lower()
 
-            # create the relations product-nutriment for every nutriments specified in settings
-            for nutriment in Nutriment.objects.all():
+                new_product.save()
 
-                if nutriment.name + "_100g" in product["nutriments"]:
-                    if product["nutriments"][nutriment.name + "_100g"] is not "":
-                        new_product.nutriments.add(
-                            nutriment,
-                            through_defaults={
-                                "quantity": product["nutriments"][nutriment.name + "_100g"]
-                            },
-                        )
+                print("Adding new product to database :", new_product.name)
+
+                # create the relations product-category
+                if len(product["categories_tags"]) > 0:
+                    for category in product["categories_tags"]:
+                        # parsing of the category tag
+                        new_category = category.replace("en:", "")
+                        new_category = new_category.replace("fr:", "")
+
+                        if Category.objects.filter(name=new_category):
+                            new_product.categories.add(Category.objects.get(name=new_category))
+                        else:
+                            continue
+                else:
+                    continue
+
+                # create the relations product-nutriment for every nutriments specified in settings
+                for nutriment in Nutriment.objects.all():
+
+                    if nutriment.name + "_100g" in product["nutriments"]:
+                        if product["nutriments"][nutriment.name + "_100g"] is not "":
+                            new_product.nutriments.add(
+                                nutriment,
+                                through_defaults={
+                                    "quantity": product["nutriments"][nutriment.name + "_100g"]
+                                },
+                            )
+                        else:
+                            new_product.nutriments.add(nutriment)
                     else:
                         new_product.nutriments.add(nutriment)
-                else:
-                    new_product.nutriments.add(nutriment)
 
 
     def openfoodfacts_api_get_product(self, category: str, number_of_products: int, user_agent):
