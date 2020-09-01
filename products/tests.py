@@ -356,8 +356,3 @@ class CommandTest(TestCase):
         
         self.assertIsNotNone(response)
         self.assertTrue(mock_get.called)
-
-    def test_test(self):
-        assert 1 == 2
-
-
