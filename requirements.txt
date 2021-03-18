@@ -1,17 +1,17 @@
--i https://pypi.org/simple
-asgiref==3.2.10
-certifi==2020.6.20
+-i https://pypi.org/simple/
+asgiref==3.3.1
+certifi==2020.12.5
 chardet==3.0.4
 coverage==5.2.1
 dj-database-url==0.5.0
 django-crontab==0.7.1
 django-debug-toolbar==2.2
-django==3.1
+django==3.1.6
 gunicorn==20.0.4
 idna==2.10
 psycopg2-binary==2.8.5
-pytz==2020.1
+pytz==2021.1
 requests==2.24.0
 sentry-sdk==0.16.5
-sqlparse==0.3.1
-urllib3==1.25.10
+sqlparse==0.4.1
+urllib3==1.25.11
